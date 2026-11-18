@@ -1,0 +1,35 @@
+{% load static %}
+{% with current=request.resolver_match.view_name %}
+<header class="site-header">
+    <div class="container header-bar">
+        <a class="brand" href="{% url 'events:home' %}">
+            <img class="brand-logo" src="{% static 'img/icon-uncp.png' %}" alt="Lorem ipsum dolor">
+            <img class="brand-logo" src="{% static 'img/icon-fis.png' %}" alt="Lorem ipsum dolor">
+            <span class="brand-name">HuancaEvent</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-nav-toggle>
+            <i data-lucide="menu"></i>
+            <span class="sr-only">Abrir menú</span>
+        </button>
+        <nav class="main-nav" id="main-nav" data-nav aria-label="Principal">
+            <a class="nav-link{% if current == 'events:list' %} is-active{% endif %}" href="{% url 'events:list' %}">Eventos</a>
+            {% if user.is_authenticated %}
+                <a class="nav-link{% if current == 'events:create' %} is-active{% endif %}" href="{% url 'events:create' %}">Crear evento</a>
+                <a class="nav-link{% if current == 'events:mine' or current == 'events:registrations' %} is-active{% endif %}" href="{% url 'events:mine' %}">Mis eventos</a>
+                <a class="nav-link{% if current|slice:':7' == 'friends' %} is-active{% endif %}" href="{% url 'friends:list' %}">Amigos</a>
+                <a class="nav-link nav-profile" href="{% url 'accounts:profile' user.username %}">
+                    {% include 'partials/avatar.html' with person=user size='avatar-sm' %}
+                    <span>{{ user.username }}</span>
+                </a>
+                <form class="inline-form" method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                    <button class="nav-link nav-button" type="submit"><i data-lucide="log-out"></i>Salir</button>
+                </form>
+            {% else %}
+                <a class="nav-link" href="{% url 'accounts:login' %}">Ingresar</a>
+                <a class="btn btn-dark btn-sm" href="{% url 'accounts:register' %}">Crear cuenta</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+{% endwith %}
