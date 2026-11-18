@@ -1,0 +1,1 @@
+{% if person.profile.avatar_url %}<img class="avatar {{ size }}" src="{{ person.profile.avatar_url }}" alt="Lorem ipsum dolor" loading="lazy">{% else %}<span class="avatar avatar-fallback {{ size }}" aria-hidden="true">{{ person.profile.initial|default:person.username|slice:":1"|upper }}</span>{% endif %}
