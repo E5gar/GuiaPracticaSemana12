@@ -1,0 +1,25 @@
+{% load static %}
+<footer class="site-footer">
+    <div class="container">
+        <p class="footer-mark">HuancaEvent</p>
+        <div class="footer-grid">
+            <div class="footer-logos">
+                <img class="footer-logo" src="{% static 'img/icon-uncp.png' %}" alt="Lorem ipsum dolor">
+                <img class="footer-logo" src="{% static 'img/icon-fis.png' %}" alt="Lorem ipsum dolor">
+            </div>
+            <div class="footer-col">
+                <p class="index-label">[01] Explorar</p>
+                <a href="{% url 'events:list' %}">Agenda de eventos</a>
+                <a href="{% url 'events:create' %}">Publicar un evento</a>
+                <a href="{% url 'friends:search' %}">Encontrar amigos</a>
+            </div>
+            <div class="footer-col">
+                <p class="index-label">[02] Proyecto</p>
+                <p>Universidad Nacional del Centro del Perú</p>
+                <p>Facultad de Ingeniería de Sistemas</p>
+                <p>Desarrollo de Aplicaciones Web</p>
+                <p>Gago Uribe Edgar Robert</p>
+            </div>
+        </div>
+    </div>
+</footer>
