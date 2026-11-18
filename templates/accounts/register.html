@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Crear cuenta{% endblock %}
+{% block content %}
+<section class="auth">
+    <div class="auth-media">
+        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80" alt="Lorem ipsum dolor">
+        <p class="auth-quote">Cada evento es mejor con alguien conocido al lado.</p>
+    </div>
+    <div class="auth-panel">
+        <p class="index-label">[01] Registro</p>
+        <h1 class="display-md">Únete a <em>HuancaEvent.</em></h1>
+        <form method="post" class="stack" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="form-errors" role="alert">
+                {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+            </div>
+            {% endif %}
+            <div class="form-grid form-grid-2">
+                {% include 'partials/form_field.html' with field=form.first_name %}
+                {% include 'partials/form_field.html' with field=form.last_name %}
+            </div>
+            {% include 'partials/form_field.html' with field=form.username %}
+            {% include 'partials/form_field.html' with field=form.email %}
+            {% include 'partials/form_field.html' with field=form.password1 %}
+            {% include 'partials/form_field.html' with field=form.password2 %}
+            <button class="btn btn-dark btn-block" type="submit">Crear cuenta<i data-lucide="arrow-right"></i></button>
+        </form>
+        <p class="muted">¿Ya tienes cuenta? <a class="link" href="{% url 'accounts:login' %}">Ingresar</a></p>
+    </div>
+</section>
+{% endblock %}
