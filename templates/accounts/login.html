@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Ingresar{% endblock %}
+{% block content %}
+<section class="auth">
+    <div class="auth-media">
+        <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1400&q=80" alt="Lorem ipsum dolor">
+        <p class="auth-quote">La ciudad no se cuenta, se vive en la plaza.</p>
+    </div>
+    <div class="auth-panel">
+        <p class="index-label">[01] Acceso</p>
+        <h1 class="display-md">Vuelve a <em>tu agenda.</em></h1>
+        <form method="post" class="stack" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% if form.non_field_errors %}
+            <div class="form-errors" role="alert">
+                {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+            </div>
+            {% endif %}
+            {% include 'partials/form_field.html' with field=form.username %}
+            {% include 'partials/form_field.html' with field=form.password %}
+            {% include 'partials/form_field.html' with field=form.remember %}
+            <button class="btn btn-dark btn-block" type="submit">Ingresar<i data-lucide="arrow-right"></i></button>
+        </form>
+        <p class="muted">¿Aún no tienes cuenta? <a class="link" href="{% url 'accounts:register' %}">Crear cuenta</a></p>
+    </div>
+</section>
+{% endblock %}
