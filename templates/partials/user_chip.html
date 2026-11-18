@@ -1,0 +1,10 @@
+<div class="user-chip" data-filter-item data-name="{{ person.get_full_name|default:person.username|lower }} {{ person.username }}">
+    <a class="user-chip-main" href="{% url 'accounts:profile' person.username %}">
+        {% include 'partials/avatar.html' with person=person size='avatar-md' %}
+        <span class="user-chip-text">
+            <strong>{{ person.get_full_name|default:person.username }}</strong>
+            <small>@{{ person.username }}{% if person.profile.district %} / {{ person.profile.district }}{% endif %}</small>
+        </span>
+    </a>
+    {% include 'partials/friend_actions.html' %}
+</div>
