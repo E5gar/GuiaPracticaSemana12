@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Buscar personas{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="stack">
+        <p class="index-label">[01] Descubrir</p>
+        <h1 class="display-lg">Encuentra a <em>tu gente.</em></h1>
+    </div>
+    <div class="form-top">{% include 'friends/subnav.html' with active='search' %}</div>
+    <form class="search-form form-top" method="get" novalidate>
+        {{ form.as_p }}
+        <button class="btn btn-dark" type="submit"><i data-lucide="search"></i>Buscar</button>
+    </form>
+    <p class="index-label form-top">{% if term %}Resultados para "{{ term }}"{% else %}Miembros recientes{% endif %}</p>
+    {% if results %}
+    <div class="list-grid">
+        {% for person in results %}{% include 'partials/user_chip.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+        <p class="display-sm">No encontramos a nadie con ese nombre.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

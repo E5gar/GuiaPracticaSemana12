@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Solicitudes{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="stack">
+        <p class="index-label">[01] Pendientes</p>
+        <h1 class="display-lg">Tus <em>solicitudes.</em></h1>
+    </div>
+    <div class="form-top">{% include 'friends/subnav.html' with active='requests' %}</div>
+    <div class="stack-lg form-top">
+        <p class="index-label">[02] Recibidas ({{ received|length }})</p>
+        {% if received %}
+        <div class="list-grid">
+            {% for item in received %}{% include 'partials/user_chip.html' with person=item.from_user %}{% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">No tienes solicitudes por responder.</p>
+        {% endif %}
+        <p class="index-label">[03] Enviadas ({{ sent|length }})</p>
+        {% if sent %}
+        <div class="list-grid">
+            {% for item in sent %}{% include 'partials/user_chip.html' with person=item.to_user %}{% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">No has enviado solicitudes.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

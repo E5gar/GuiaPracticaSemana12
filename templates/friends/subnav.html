@@ -1,0 +1,5 @@
+<div class="subnav">
+    <a class="pill{% if active == 'list' %} is-active{% endif %}" href="{% url 'friends:list' %}">Mis amigos</a>
+    <a class="pill{% if active == 'search' %} is-active{% endif %}" href="{% url 'friends:search' %}">Buscar personas</a>
+    <a class="pill{% if active == 'requests' %} is-active{% endif %}" href="{% url 'friends:requests' %}">Solicitudes</a>
+</div>

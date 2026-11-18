@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Amigos{% endblock %}
+{% block scripts %}{% load static %}<script src="{% static 'js/friends.js' %}" defer></script>{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="stack">
+        <p class="index-label">[01] Tu red</p>
+        <h1 class="display-lg">Mis <em>amigos.</em></h1>
+    </div>
+    <div class="form-top">{% include 'friends/subnav.html' with active='list' %}</div>
+    {% if friends %}
+    <div class="field filter-field form-top">
+        <label for="friend-filter">Filtrar por nombre</label>
+        <input id="friend-filter" type="search" placeholder="Escribe para filtrar" data-friend-filter>
+    </div>
+    <div class="list-grid form-top">
+        {% for person in friends %}{% include 'partials/user_chip.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty form-top">
+        <p class="display-sm">Todavía no tienes amigos agregados.</p>
+        <p class="muted">Busca personas que se inscriban a tus mismos eventos.</p>
+        <a class="btn btn-dark" href="{% url 'friends:search' %}">Buscar personas</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
