@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Inicio{% endblock %} | HuancaEvent</title>
+    <meta name="description" content="Descubre, publica e inscríbete en eventos de Huancayo y el Valle del Mantaro.">
+    <link rel="icon" href="{% static 'img/icon-uncp.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Newsreader:ital,wght@0,300;1,300&display=swap">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <script src="{% static 'js/reactions.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    {% include 'partials/navbar.html' %}
+    {% include 'partials/messages.html' %}
+    <main id="contenido">
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'partials/footer.html' %}
+</body>
+</html>
