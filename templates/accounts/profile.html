@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ person.get_full_name|default:person.username }}{% endblock %}
+{% block content %}
+<section class="container profile-head">
+    {% include 'partials/avatar.html' with person=person size='avatar-xl' %}
+    <div class="stack">
+        <p class="index-label">[01] Perfil</p>
+        <h1 class="display-lg">{{ person.get_full_name|default:person.username }}</h1>
+        <p class="muted">@{{ person.username }}{% if person.profile.district %} / {{ person.profile.district }}{% endif %}</p>
+        {% if person.profile.bio %}<p class="prose">{{ person.profile.bio }}</p>{% endif %}
+    </div>
+    <div class="profile-actions">
+        {% if person.id == user.id %}
+            <a class="btn btn-soft" href="{% url 'accounts:profile_edit' %}"><i data-lucide="pencil"></i>Editar perfil</a>
+        {% else %}
+            {% include 'partials/friend_actions.html' %}
+        {% endif %}
+    </div>
+</section>
+<section class="container">
+    <div class="stats">
+        <div class="stat"><span class="index-label">[01]</span><span class="stat-value">{{ events_count }}</span><span class="stat-label">Eventos creados</span></div>
+        <div class="stat"><span class="index-label">[02]</span><span class="stat-value">{{ friends_count }}</span><span class="stat-label">Amigos</span></div>
+        <div class="stat"><span class="index-label">[03]</span><span class="stat-value">{{ registrations_count }}</span><span class="stat-label">Inscripciones</span></div>
+    </div>
+</section>
+<section class="container section">
+    <div class="section-head">
+        <h2 class="display-sm">Eventos organizados</h2>
+    </div>
+    {% if events %}
+    <div class="grid-cards">
+        {% for event in events %}{% include 'partials/event_card.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+        <p class="display-sm">Aún no hay eventos.</p>
+        <p class="muted">Cuando esta persona publique uno, aparecerá aquí.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
