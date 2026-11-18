@@ -1,0 +1,22 @@
+<article class="event-card">
+    <a class="event-card-media" href="{% url 'events:detail' event.pk %}">
+        <img src="{{ event.cover }}" alt="Lorem ipsum dolor" loading="lazy">
+        <span class="date-badge">
+            <strong>{{ event.starts_at|date:"d" }}</strong>
+            <small>{{ event.starts_at|date:"M"|upper }}</small>
+        </span>
+    </a>
+    <div class="event-card-body">
+        <div class="chip-row">
+            <span class="chip"><span class="dot tone-{{ event.category.tone }}"></span>{{ event.category.name }}</span>
+            <span class="chip">{% if event.is_free %}Gratis{% else %}S/ {{ event.price }}{% endif %}</span>
+        </div>
+        <h3 class="event-card-title"><a href="{% url 'events:detail' event.pk %}">{{ event.title }}</a></h3>
+        <ul class="meta-list">
+            <li><i data-lucide="calendar"></i><span>{{ event.starts_at|date:"l d \d\e F, H:i" }}</span></li>
+            <li><i data-lucide="map-pin"></i><span>{{ event.venue }}, {{ event.district }}</span></li>
+            <li><i data-lucide="users"></i><span>{{ event.attendees_count }} de {{ event.capacity }} inscritos</span></li>
+        </ul>
+        {% include 'partials/reaction_bar.html' %}
+    </div>
+</article>
