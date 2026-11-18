@@ -1,0 +1,17 @@
+{% if user.is_authenticated and person.id != user.id %}
+<form class="friend-actions" method="post" action="{% url 'friends:action' %}">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ person.id }}">
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    {% if person.relation == 'friends' %}
+        <button class="btn btn-soft btn-sm" type="submit" name="action" value="remove"><i data-lucide="user-check"></i>Amigos</button>
+    {% elif person.relation == 'sent' %}
+        <button class="btn btn-soft btn-sm" type="submit" name="action" value="cancel"><i data-lucide="clock"></i>Enviada</button>
+    {% elif person.relation == 'received' %}
+        <button class="btn btn-dark btn-sm" type="submit" name="action" value="accept"><i data-lucide="check"></i>Aceptar</button>
+        <button class="btn btn-soft btn-sm" type="submit" name="action" value="decline"><i data-lucide="x"></i>Rechazar</button>
+    {% else %}
+        <button class="btn btn-dark btn-sm" type="submit" name="action" value="send"><i data-lucide="user-plus"></i>Agregar</button>
+    {% endif %}
+</form>
+{% endif %}

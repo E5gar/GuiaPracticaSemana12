@@ -1,0 +1,23 @@
+{% if user.is_authenticated %}
+<form class="reaction-bar {{ size }}" method="post" action="{% url 'events:react' event.pk %}" data-reaction-form>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    {% for r in event.reactions_summary %}
+    <button class="reaction tone-{{ r.kind }}{% if r.active %} is-active{% endif %}" type="submit" name="kind" value="{{ r.kind }}" data-kind="{{ r.kind }}" aria-pressed="{{ r.active|yesno:'true,false' }}" title="{{ r.label }}">
+        <i data-lucide="{{ r.icon }}"></i>
+        <span data-count>{{ r.count }}</span>
+        <span class="sr-only">{{ r.label }}</span>
+    </button>
+    {% endfor %}
+</form>
+{% else %}
+<div class="reaction-bar {{ size }}">
+    {% for r in event.reactions_summary %}
+    <a class="reaction tone-{{ r.kind }}" href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}" title="{{ r.label }}">
+        <i data-lucide="{{ r.icon }}"></i>
+        <span>{{ r.count }}</span>
+        <span class="sr-only">{{ r.label }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
