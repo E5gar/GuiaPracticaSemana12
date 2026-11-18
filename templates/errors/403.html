@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Acceso denegado{% endblock %}
+{% block content %}
+<section class="container error-page">
+    <p class="error-code">403</p>
+    <h1 class="display-md">No tienes permiso para <em>entrar aquí.</em></h1>
+    <a class="btn btn-dark" href="{% url 'events:home' %}">Volver al inicio</a>
+</section>
+{% endblock %}

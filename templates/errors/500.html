@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error del servidor | HuancaEvent</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Newsreader:ital,wght@0,300;1,300&display=swap">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+<body>
+    <main class="container error-page">
+        <p class="error-code">500</p>
+        <h1 class="display-md">Algo falló <em>de nuestro lado.</em></h1>
+        <a class="btn btn-dark" href="/">Volver al inicio</a>
+    </main>
+</body>
+</html>

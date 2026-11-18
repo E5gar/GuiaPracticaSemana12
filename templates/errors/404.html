@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}No encontrado{% endblock %}
+{% block content %}
+<section class="container error-page">
+    <p class="error-code">404</p>
+    <h1 class="display-md">Esta página <em>no existe.</em></h1>
+    <a class="btn btn-dark" href="{% url 'events:list' %}">Ver la agenda</a>
+</section>
+{% endblock %}
