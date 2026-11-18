@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Agenda{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="stack">
+        <p class="index-label">[01] Agenda</p>
+        <h1 class="display-lg">Todo lo que pasa <em>esta temporada.</em></h1>
+    </div>
+    <form class="filter-bar" method="get" novalidate>
+        {% include 'partials/form_field.html' with field=form.q %}
+        {% include 'partials/form_field.html' with field=form.category %}
+        {% include 'partials/form_field.html' with field=form.when %}
+        {% include 'partials/form_field.html' with field=form.price %}
+        <div class="filter-actions">
+            <button class="btn btn-dark" type="submit"><i data-lucide="search"></i>Filtrar</button>
+            <a class="btn btn-soft" href="{% url 'events:list' %}">Limpiar</a>
+        </div>
+    </form>
+    {% if page_obj.object_list %}
+    <div class="grid-cards">
+        {% for event in page_obj.object_list %}{% include 'partials/event_card.html' %}{% endfor %}
+    </div>
+    {% include 'partials/pagination.html' %}
+    {% else %}
+    <div class="empty">
+        <p class="display-sm">No encontramos eventos con esos filtros.</p>
+        <p class="muted">Prueba con otra categoría o amplía las fechas.</p>
+        <a class="btn btn-dark" href="{% url 'events:list' %}">Ver todos</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

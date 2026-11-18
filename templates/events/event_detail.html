@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }}{% endblock %}
+{% block content %}
+<article class="container section">
+    <a class="back-link" href="{% url 'events:list' %}"><i data-lucide="arrow-left"></i>Todos los eventos</a>
+    <div class="chip-row detail-chips">
+        <span class="chip"><span class="dot tone-{{ event.category.tone }}"></span>{{ event.category.name }}</span>
+        <span class="chip">{% if event.is_free %}Entrada libre{% else %}S/ {{ event.price }}{% endif %}</span>
+        {% if event.is_past %}<span class="chip">Finalizado</span>{% elif event.spots_left <= 0 %}<span class="chip">Agotado</span>{% endif %}
+        {% if not event.is_published %}<span class="chip">Oculto</span>{% endif %}
+    </div>
+    <h1 class="display-lg detail-title">{{ event.title }}</h1>
+    <figure class="detail-cover"><img src="{{ event.cover }}" alt="Lorem ipsum dolor"></figure>
+
+    <div class="detail-layout">
+        <div class="stack-lg">
+            <section class="info-grid">
+                <div class="info-item"><span>Fecha</span><strong>{{ event.starts_at|date:"l d \d\e F \d\e Y" }}</strong></div>
+                <div class="info-item"><span>Horario</span><strong>{{ event.starts_at|date:"H:i" }} a {{ event.ends_at|date:"H:i" }}</strong></div>
+                <div class="info-item"><span>Lugar</span><strong>{{ event.venue }}</strong></div>
+                <div class="info-item"><span>Distrito</span><strong>{{ event.district }}{% if event.address %}, {{ event.address }}{% endif %}</strong></div>
+            </section>
+            <section class="stack">
+                <p class="index-label">[01] Acerca del evento</p>
+                <p class="prose">{{ event.description }}</p>
+            </section>
+            <section class="stack">
+                <p class="index-label">[02] Reacciones</p>
+                {% include 'partials/reaction_bar.html' with size='reaction-bar-lg' %}
+            </section>
+            <section class="stack">
+                <p class="index-label">[03] Asistentes ({{ event.attendees_count }})</p>
+                {% if attendees %}
+                <div class="list-grid">
+                    {% for person in attendees %}{% include 'partials/user_chip.html' %}{% endfor %}
+                </div>
+                {% else %}
+                <p class="muted">Aún nadie se inscribió. Puedes ser la primera persona.</p>
+                {% endif %}
+            </section>
+        </div>
+
+        <aside class="detail-aside">
+            <p class="price-tag">{% if event.is_free %}Gratis{% else %}S/ {{ event.price }}{% endif %}</p>
+            <div class="stack">
+                <progress value="{{ event.attendees_count }}" max="{{ event.capacity }}"></progress>
+                <p class="muted">{{ event.attendees_count }} de {{ event.capacity }} lugares ocupados</p>
+            </div>
+            {% if is_owner %}
+                <a class="btn btn-dark btn-block" href="{% url 'events:update' event.pk %}"><i data-lucide="pencil"></i>Editar evento</a>
+                <a class="btn btn-soft btn-block" href="{% url 'events:delete' event.pk %}"><i data-lucide="trash-2"></i>Eliminar</a>
+            {% elif user.is_authenticated %}
+                <form method="post" action="{% url 'events:register' event.pk %}">
+                    {% csrf_token %}
+                    {% if event.is_registered %}
+                        <button class="btn btn-soft btn-block" type="submit"><i data-lucide="check"></i>Inscrito, cancelar</button>
+                    {% elif event.is_past %}
+                        <button class="btn btn-soft btn-block" type="button" disabled>Evento finalizado</button>
+                    {% elif event.spots_left <= 0 %}
+                        <button class="btn btn-soft btn-block" type="button" disabled>Aforo completo</button>
+                    {% else %}
+                        <button class="btn btn-dark btn-block" type="submit"><i data-lucide="ticket"></i>Inscribirme</button>
+                    {% endif %}
+                </form>
+            {% else %}
+                <a class="btn btn-dark btn-block" href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Ingresa para inscribirte</a>
+            {% endif %}
+            <div class="organizer">
+                <p class="index-label">Organiza</p>
+                {% include 'partials/user_chip.html' with person=organizer %}
+            </div>
+        </aside>
+    </div>
+</article>
+{% endblock %}

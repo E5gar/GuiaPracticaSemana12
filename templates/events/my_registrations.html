@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Mis inscripciones{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="stack">
+        <p class="index-label">[01] Tu actividad</p>
+        <h1 class="display-lg">Mis <em>inscripciones.</em></h1>
+    </div>
+    <div class="subnav form-top">
+        <a class="pill" href="{% url 'events:mine' %}">Organizados</a>
+        <a class="pill is-active" href="{% url 'events:registrations' %}">Inscripciones</a>
+    </div>
+    <div class="stack-lg form-top">
+        <p class="index-label">[02] Próximos</p>
+        {% if upcoming %}
+        <div class="grid-cards">
+            {% for event in upcoming %}{% include 'partials/event_card.html' %}{% endfor %}
+        </div>
+        {% else %}
+        <div class="empty">
+            <p class="display-sm">No tienes inscripciones próximas.</p>
+            <a class="btn btn-dark" href="{% url 'events:list' %}">Explorar eventos</a>
+        </div>
+        {% endif %}
+        {% if past %}
+        <p class="index-label">[03] Anteriores</p>
+        <div class="grid-cards">
+            {% for event in past %}{% include 'partials/event_card.html' %}{% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

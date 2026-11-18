@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Editar perfil{% endblock %}
+{% block content %}
+<section class="container section narrow">
+    <p class="index-label">[01] Tu perfil</p>
+    <h1 class="display-lg">Editar <em>perfil.</em></h1>
+    <form method="post" class="stack-lg form-top" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="form-errors" role="alert">
+            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+        {% endif %}
+        <div class="form-grid form-grid-2">
+            {% include 'partials/form_field.html' with field=form.first_name %}
+            {% include 'partials/form_field.html' with field=form.last_name %}
+        </div>
+        {% include 'partials/form_field.html' with field=form.avatar_url %}
+        <div class="form-grid form-grid-2">
+            {% include 'partials/form_field.html' with field=form.district %}
+            {% include 'partials/form_field.html' with field=form.phone %}
+        </div>
+        {% include 'partials/form_field.html' with field=form.bio %}
+        <div class="row row-wrap">
+            <button class="btn btn-dark" type="submit">Guardar cambios</button>
+            <a class="btn btn-soft" href="{% url 'accounts:profile' user.username %}">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

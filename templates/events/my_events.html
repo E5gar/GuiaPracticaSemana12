@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Mis eventos{% endblock %}
+{% block content %}
+<section class="container section">
+    <div class="section-head">
+        <div class="stack">
+            <p class="index-label">[01] Tu actividad</p>
+            <h1 class="display-lg">Mis <em>eventos.</em></h1>
+        </div>
+        <a class="btn btn-dark" href="{% url 'events:create' %}"><i data-lucide="plus"></i>Nuevo evento</a>
+    </div>
+    <div class="subnav">
+        <a class="pill is-active" href="{% url 'events:mine' %}">Organizados</a>
+        <a class="pill" href="{% url 'events:registrations' %}">Inscripciones</a>
+    </div>
+    {% if events %}
+    <div class="grid-cards form-top">
+        {% for event in events %}
+        <div class="card-with-actions">
+            {% include 'partials/event_card.html' %}
+            <div class="card-actions">
+                <a class="btn btn-soft btn-sm" href="{% url 'events:update' event.pk %}"><i data-lucide="pencil"></i>Editar</a>
+                <a class="btn btn-soft btn-sm" href="{% url 'events:delete' event.pk %}"><i data-lucide="trash-2"></i>Eliminar</a>
+                {% if not event.is_published %}<span class="chip">Oculto</span>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty form-top">
+        <p class="display-sm">Aún no has publicado eventos.</p>
+        <a class="btn btn-dark" href="{% url 'events:create' %}">Crear mi primer evento</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}Editar evento{% else %}Nuevo evento{% endif %}{% endblock %}
+{% block content %}
+<section class="container section">
+    <p class="index-label">[01] {% if object %}Edición{% else %}Publicación{% endif %}</p>
+    <h1 class="display-lg">{% if object %}Editar <em>evento.</em>{% else %}Crea tu <em>evento.</em>{% endif %}</h1>
+    <div class="form-page">
+        <form method="post" class="stack-lg" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="form-errors" role="alert">
+                {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+            </div>
+            {% endif %}
+            <section class="form-section">
+                <p class="index-label">[01] Lo básico</p>
+                {% include 'partials/form_field.html' with field=form.title %}
+                {% include 'partials/form_field.html' with field=form.category %}
+                {% include 'partials/form_field.html' with field=form.description %}
+            </section>
+            <section class="form-section">
+                <p class="index-label">[02] Fecha y lugar</p>
+                <div class="form-grid form-grid-2">
+                    {% include 'partials/form_field.html' with field=form.starts_at %}
+                    {% include 'partials/form_field.html' with field=form.ends_at %}
+                </div>
+                <div class="form-grid form-grid-2">
+                    {% include 'partials/form_field.html' with field=form.venue %}
+                    {% include 'partials/form_field.html' with field=form.district %}
+                </div>
+                {% include 'partials/form_field.html' with field=form.address %}
+            </section>
+            <section class="form-section">
+                <p class="index-label">[03] Cupo y precio</p>
+                <div class="form-grid form-grid-2">
+                    {% include 'partials/form_field.html' with field=form.capacity %}
+                    {% include 'partials/form_field.html' with field=form.price %}
+                </div>
+            </section>
+            <section class="form-section">
+                <p class="index-label">[04] Portada</p>
+                {% include 'partials/form_field.html' with field=form.cover_url %}
+            </section>
+            <div class="row row-wrap">
+                <button class="btn btn-dark" type="submit">{% if object %}Guardar cambios{% else %}Publicar evento{% endif %}</button>
+                <a class="btn btn-soft" href="{% url 'events:list' %}">Cancelar</a>
+            </div>
+        </form>
+        <aside class="tips-card">
+            <p class="index-label">Antes de publicar</p>
+            <ul class="meta-list tips-list">
+                <li><i data-lucide="type"></i><span>Un título claro y corto se entiende mejor en la agenda.</span></li>
+                <li><i data-lucide="map-pin"></i><span>Indica una referencia fácil: una plaza, una avenida o un local conocido.</span></li>
+                <li><i data-lucide="users"></i><span>El aforo controla cuántas personas pueden inscribirse.</span></li>
+                <li><i data-lucide="image"></i><span>Usa una imagen horizontal para que se vea completa en las tarjetas.</span></li>
+            </ul>
+        </aside>
+    </div>
+</section>
+{% endblock %}

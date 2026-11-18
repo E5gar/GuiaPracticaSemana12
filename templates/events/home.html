@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Eventos en Huancayo{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="index-label">[01] Agenda del Valle del Mantaro</p>
+            <h1 class="display-xl">Huancayo se vive <em>en grupo.</em></h1>
+            <p class="lead">Descubre ferias, conciertos, charlas y celebraciones, inscríbete en segundos y mira a qué van tus amigos.</p>
+            <div class="row row-wrap">
+                <a class="btn btn-dark" href="{% url 'events:list' %}">Explorar eventos<i data-lucide="arrow-right"></i></a>
+                {% if user.is_authenticated %}
+                    <a class="btn btn-soft" href="{% url 'events:create' %}">Publicar un evento</a>
+                {% else %}
+                    <a class="btn btn-soft" href="{% url 'accounts:register' %}">Crear cuenta</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-collage">
+            <figure class="collage-a"><img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=900&q=80" alt="Lorem ipsum dolor"></figure>
+            <figure class="collage-b"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=700&q=80" alt="Lorem ipsum dolor"></figure>
+            <figure class="collage-c"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=80" alt="Lorem ipsum dolor"></figure>
+        </div>
+    </div>
+    <div class="container">
+        <div class="stats">
+            <div class="stat"><span class="index-label">[01]</span><span class="stat-value">{{ stats.events }}</span><span class="stat-label">Eventos próximos</span></div>
+            <div class="stat"><span class="index-label">[02]</span><span class="stat-value">{{ stats.members }}</span><span class="stat-label">Personas en la red</span></div>
+            <div class="stat"><span class="index-label">[03]</span><span class="stat-value">{{ stats.registrations }}</span><span class="stat-label">Inscripciones</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="container section-tight">
+    <div class="section-head">
+        <div class="stack">
+            <p class="index-label">[02] Por categoría</p>
+            <h2 class="display-sm">Elige tu plan.</h2>
+        </div>
+    </div>
+    <div class="chip-row chip-row-lg">
+        {% for category in categories %}
+        <a class="chip chip-lg" href="{% url 'events:list' %}?category={{ category.pk }}"><span class="dot tone-{{ category.tone }}"></span>{{ category.name }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="container section">
+    <div class="section-head">
+        <div class="stack">
+            <p class="index-label">[03] Próximamente</p>
+            <h2 class="display-md">Lo que viene en la ciudad.</h2>
+        </div>
+        <a class="btn btn-soft" href="{% url 'events:list' %}">Ver toda la agenda</a>
+    </div>
+    {% if featured %}
+    <div class="grid-cards">
+        {% for event in featured %}{% include 'partials/event_card.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+        <p class="display-sm">Todavía no hay eventos próximos.</p>
+        <p class="muted">Sé la primera persona en publicar uno.</p>
+        <a class="btn btn-dark" href="{% url 'events:create' %}">Publicar evento</a>
+    </div>
+    {% endif %}
+</section>
+
+{% if circle %}
+<section class="container section">
+    <div class="section-head">
+        <div class="stack">
+            <p class="index-label">[04] Tu círculo</p>
+            <h2 class="display-md">A dónde van tus amigos.</h2>
+        </div>
+        <a class="btn btn-soft" href="{% url 'friends:list' %}">Ver amigos</a>
+    </div>
+    <div class="grid-cards">
+        {% for event in circle %}{% include 'partials/event_card.html' %}{% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="container section">
+    <div class="cta-band">
+        <div class="dots-cluster" aria-hidden="true">
+            <span class="bg-red"></span><span class="bg-blue"></span><span class="bg-green"></span><span class="bg-violet"></span><span class="bg-orange"></span>
+        </div>
+        <h2 class="display-lg">¿Tienes algo que <em>celebrar?</em></h2>
+        <p class="lead">Publica tu evento, deja que otros se inscriban y recibe reacciones de toda la comunidad.</p>
+        {% if user.is_authenticated %}
+            <a class="btn btn-dark" href="{% url 'events:create' %}">Crear evento<i data-lucide="arrow-right"></i></a>
+        {% else %}
+            <a class="btn btn-dark" href="{% url 'accounts:register' %}">Empezar ahora<i data-lucide="arrow-right"></i></a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
